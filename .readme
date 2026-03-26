@@ -1,0 +1,9 @@
+Daily Loop Project Notes
+
+Main docs are in README.md.
+Release checklist is in RELEASE.md.
+
+Quick commands:
+- npm install
+- npm run dev
+- npm run build
