@@ -579,6 +579,32 @@ export default function Dashboard() {
     setHackathons(prev => prev.map(h => h.id === id ? { ...h, ...updates } : h));
   };
 
+  const handleDeleteCoreSection = (sectionType) => {
+    const sectionLabelMap = {
+      courses: 'SAP Courses',
+      internships: 'Internships',
+      hackathons: 'Hackathons'
+    };
+
+    const confirmed = window.confirm(`Delete all items in ${sectionLabelMap[sectionType]} section?`);
+    if (!confirmed) return;
+
+    if (sectionType === 'courses') {
+      setCourses([]);
+      setCalendarEvents(prev => prev.filter(event => event.type !== 'course'));
+    }
+
+    if (sectionType === 'internships') {
+      setInternships([]);
+      setCalendarEvents(prev => prev.filter(event => event.type !== 'internship'));
+    }
+
+    if (sectionType === 'hackathons') {
+      setHackathons([]);
+      setCalendarEvents(prev => prev.filter(event => event.type !== 'hackathon'));
+    }
+  };
+
   const handleAddTask = (sectionId, e) => {
     e.preventDefault();
     if (newTaskText.trim()) {
@@ -658,7 +684,16 @@ export default function Dashboard() {
     <div className="animate-fade-in stagger-1">
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem', alignItems: 'center' }}>
         <h2 style={{ fontSize: '1.25rem', color: 'var(--text-main)' }}>Current Enrollments</h2>
-        <button className="btn btn-primary" onClick={() => openModal('ADD_COURSE', null, { hasDate: true, hasDesc: true, hasOrg: true })}><PlusCircle size={16} /> Add Course</button>
+        <div style={{ display: 'flex', gap: '0.75rem' }}>
+          <button
+            className="btn btn-outline"
+            style={{ color: 'var(--status-deadline)', borderColor: 'var(--status-deadline)', padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}
+            onClick={() => handleDeleteCoreSection('courses')}
+          >
+            <Trash2 size={14} /> Delete Section
+          </button>
+          <button className="btn btn-primary" onClick={() => openModal('ADD_COURSE', null, { hasDate: true, hasDesc: true, hasOrg: true })}><PlusCircle size={16} /> Add Course</button>
+        </div>
       </div>
       <div className="section-grid">
         {courses.map((course, idx) => {
@@ -873,7 +908,16 @@ export default function Dashboard() {
     <div className="animate-fade-in stagger-1">
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem', alignItems: 'center' }}>
         <h2 style={{ fontSize: '1.25rem', color: 'var(--text-main)' }}>Active Programs</h2>
-        <button className="btn btn-primary" onClick={() => openModal('ADD_INTERNSHIP', null, { hasDate: true, hasDesc: true, hasOrg: true })}><PlusCircle size={16} /> Add Program</button>
+        <div style={{ display: 'flex', gap: '0.75rem' }}>
+          <button
+            className="btn btn-outline"
+            style={{ color: 'var(--status-deadline)', borderColor: 'var(--status-deadline)', padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}
+            onClick={() => handleDeleteCoreSection('internships')}
+          >
+            <Trash2 size={14} /> Delete Section
+          </button>
+          <button className="btn btn-primary" onClick={() => openModal('ADD_INTERNSHIP', null, { hasDate: true, hasDesc: true, hasOrg: true })}><PlusCircle size={16} /> Add Program</button>
+        </div>
       </div>
       <div className="section-grid">
         {internships.map((intern, idx) => {
@@ -1077,7 +1121,16 @@ export default function Dashboard() {
     <div className="animate-fade-in stagger-1">
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem', alignItems: 'center' }}>
         <h2 style={{ fontSize: '1.25rem', color: 'var(--text-main)' }}>Registered Events</h2>
-        <button className="btn btn-primary" onClick={() => openModal('ADD_HACKATHON', null, { hasDate: true, hasDesc: true, hasOrg: true })}><PlusCircle size={16} /> Add Hackathon</button>
+        <div style={{ display: 'flex', gap: '0.75rem' }}>
+          <button
+            className="btn btn-outline"
+            style={{ color: 'var(--status-deadline)', borderColor: 'var(--status-deadline)', padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}
+            onClick={() => handleDeleteCoreSection('hackathons')}
+          >
+            <Trash2 size={14} /> Delete Section
+          </button>
+          <button className="btn btn-primary" onClick={() => openModal('ADD_HACKATHON', null, { hasDate: true, hasDesc: true, hasOrg: true })}><PlusCircle size={16} /> Add Hackathon</button>
+        </div>
       </div>
       <div className="section-grid">
         {hackathons.map((hackathon, idx) => {
